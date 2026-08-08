@@ -1,5 +1,5 @@
 import { initializeNotes, updateNote, deleteNote, addTag, removeTag, connectNotes, disconnectNotes, persistNotes, createNote } from './data.js';
-import { renderGraph } from './graph.js';
+import { renderGraph as drawGraph } from './graph.js';
 import { loadTheme, saveTheme } from './storage.js';
 
 const state = {
@@ -230,7 +230,7 @@ function renderGraph() {
     dom.graphEmpty.classList.add('hidden');
   }
 
-  renderGraph(dom.graphSvg, state.notes, state.activeNoteId, selectNote);
+  drawGraph(dom.graphSvg, state.notes, state.activeNoteId, selectNote);
 }
 
 function showModal(modal) {
