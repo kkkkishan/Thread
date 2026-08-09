@@ -1,5 +1,5 @@
 import { initializeNotes, updateNote, deleteNote, addTag, removeTag, connectNotes, disconnectNotes, persistNotes, createNote } from './data.js';
-import { renderGraph as drawGraph } from './graph.js';
+import { renderGraph } from './graph.js';
 import { loadTheme, saveTheme } from './storage.js';
 
 const state = {
@@ -155,6 +155,7 @@ function renderTagList(note) {
     dom.tagList.appendChild(placeholder);
     return;
   }
+
   note.tags.forEach((tag) => {
     const chip = document.createElement('span');
     chip.className = 'tag-chip';
@@ -230,7 +231,7 @@ function renderGraph() {
     dom.graphEmpty.classList.add('hidden');
   }
 
-  drawGraph(dom.graphSvg, state.notes, state.activeNoteId, selectNote);
+  renderGraph(dom.graphSvg, state.notes, state.activeNoteId, selectNote);
 }
 
 function showModal(modal) {
@@ -245,6 +246,7 @@ function startAutoSave() {
   if (state.autoSaveTimeout) {
     window.clearTimeout(state.autoSaveTimeout);
   }
+
   state.autoSaveTimeout = window.setTimeout(() => {
     persistActiveNote();
   }, 800);
@@ -253,8 +255,10 @@ function startAutoSave() {
 function persistActiveNote() {
   const note = getActiveNote();
   if (!note) return;
+
   const title = dom.noteTitle.value;
   const content = dom.noteContent.value;
+
   state.notes = updateNote(state.notes, note.id, { title, content });
   updateStorage();
   renderSidebar();
@@ -276,8 +280,10 @@ function attachEvents() {
   dom.saveNoteBtn.addEventListener('click', persistActiveNote);
   dom.deleteNoteBtn.addEventListener('click', () => showModal(dom.confirmModal));
   dom.cancelDeleteBtn.addEventListener('click', () => hideModal(dom.confirmModal));
+
   dom.confirmDeleteBtn.addEventListener('click', () => {
     if (!state.activeNoteId) return;
+
     state.notes = deleteNote(state.notes, state.activeNoteId);
     state.activeNoteId = state.notes[0]?.id || null;
     updateStorage();
@@ -297,18 +303,23 @@ function attachEvents() {
 
   dom.noteTitle.addEventListener('input', startAutoSave);
   dom.noteContent.addEventListener('input', startAutoSave);
+
   dom.tagInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       addNewTag();
     }
   });
+
   dom.addTagBtn.addEventListener('click', addNewTag);
   dom.addConnectionBtn.addEventListener('click', openConnectionModal);
   dom.cancelConnectionBtn.addEventListener('click', () => hideModal(dom.connectionModal));
+
   dom.confirmConnectionBtn.addEventListener('click', () => {
     const targetId = dom.connectionSelect.value;
+
     if (!targetId || !state.activeNoteId) return;
+
     state.notes = connectNotes(state.notes, state.activeNoteId, targetId);
     updateStorage();
     hideModal(dom.connectionModal);
@@ -322,11 +333,16 @@ function attachEvents() {
 
 function addNewTag() {
   const note = getActiveNote();
+
   if (!note) return;
+
   const tag = dom.tagInput.value.trim();
+
   if (!tag) return;
+
   state.notes = addTag(state.notes, note.id, tag);
   dom.tagInput.value = '';
+
   updateStorage();
   renderEditor();
   renderSidebar();
@@ -334,28 +350,41 @@ function addNewTag() {
 
 function openConnectionModal() {
   const note = getActiveNote();
+
   if (!note) return;
+
   dom.connectionSelect.innerHTML = '';
-  const choices = state.notes.filter((item) => item.id !== note.id && !note.connections.includes(item.id));
+
+  const choices = state.notes.filter(
+    (item) => item.id !== note.id && !note.connections.includes(item.id)
+  );
+
   if (!choices.length) {
     dom.connectionSelect.innerHTML = '<option value="">No eligible notes</option>';
   } else {
     const placeholder = document.createElement('option');
+
     placeholder.value = '';
     placeholder.textContent = 'Choose a note';
+
     dom.connectionSelect.appendChild(placeholder);
+
     choices.forEach((item) => {
       const option = document.createElement('option');
+
       option.value = item.id;
       option.textContent = item.title || 'Untitled';
+
       dom.connectionSelect.appendChild(option);
     });
   }
+
   showModal(dom.connectionModal);
 }
 
 function applyTheme(themeName) {
   const htmlElement = document.documentElement;
+
   if (themeName === 'dark') {
     htmlElement.classList.add('dark-theme');
     dom.themeToggle.textContent = '☀️';
@@ -364,14 +393,19 @@ function applyTheme(themeName) {
     dom.themeToggle.textContent = '🌙';
   } else {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
     htmlElement.classList.toggle('dark-theme', prefersDark);
     dom.themeToggle.textContent = prefersDark ? '☀️' : '🌙';
   }
 }
 
 function toggleTheme() {
-  const current = document.documentElement.classList.contains('dark-theme') ? 'dark' : 'light';
+  const current = document.documentElement.classList.contains('dark-theme')
+    ? 'dark'
+    : 'light';
+
   const next = current === 'dark' ? 'light' : 'dark';
+
   applyTheme(next);
   saveTheme(next);
 }
@@ -390,7 +424,8 @@ function render() {
 export function initializeApp() {
   state.notes = initializeNotes();
   state.activeNoteId = state.notes[0]?.id || null;
+
   attachEvents();
   loadInitialTheme();
   render();
-}
+                 }
