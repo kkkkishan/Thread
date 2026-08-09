@@ -1,0 +1,14 @@
+# Local configuration files
+config.js
+firebaseConfig.js
+.env*
+
+# Firebase debug
+firebase-debug.log
+
+# Dependency directories
+node_modules/
+
+# Editor and system files
+.DS_Store
+*.log
