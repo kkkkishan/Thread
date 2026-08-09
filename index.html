@@ -181,4 +181,79 @@
 
   <script type="module" src="script.js"></script>
 </body>
+</html>            <p class="insight-detail">Ideas that may relate to this note.</p>
+            <ul>
+              <li>Photosynthesis → Cellular Respiration</li>
+              <li>Planning → Reflection</li>
+            </ul>
+          </article>
+          <article class="insight-card">
+            <h3>Possible contradictions</h3>
+            <p class="insight-detail">Watch for ideas that don’t align.</p>
+            <ul>
+              <li>Strategy A and Strategy B may conflict.</li>
+            </ul>
+          </article>
+          <article class="insight-card">
+            <h3>Missing relationships</h3>
+            <p class="insight-detail">Gaps where notes could connect.</p>
+            <ul>
+              <li>Link research notes to conclusions.</li>
+            </ul>
+          </article>
+          <article class="insight-card">
+            <h3>Related concepts</h3>
+            <p class="insight-detail">Concepts that belong together.</p>
+            <ul>
+              <li>Systems thinking</li>
+              <li>Learning cycles</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="graph-panel" aria-label="Knowledge graph">
+        <div class="panel-header">
+          <p class="section-label">Knowledge graph</p>
+          <h2>Note relationships at a glance</h2>
+        </div>
+        <div class="graph-wrapper">
+          <svg id="graph-svg" viewBox="0 0 800 420" preserveAspectRatio="xMidYMid meet"></svg>
+          <div id="graph-empty" class="graph-empty hidden">
+            <p>No connected notes yet.</p>
+            <p>Use the note connections panel to create your first edge.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="confirm-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="modal-card">
+      <h2 id="confirm-title">Delete note?</h2>
+      <p>Deleting a note will remove it from the sidebar and the knowledge graph. This cannot be undone.</p>
+      <div class="modal-actions">
+        <button id="cancel-delete-btn" class="secondary-button">Cancel</button>
+        <button id="confirm-delete-btn" class="danger-button">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="connection-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="connection-title">
+    <div class="modal-card">
+      <h2 id="connection-title">Link a note</h2>
+      <p>Select a note to connect with the current note.</p>
+      <div class="field-row">
+        <label for="connection-select">Available notes</label>
+        <select id="connection-select"></select>
+      </div>
+      <div class="modal-actions">
+        <button id="cancel-connection-btn" class="secondary-button">Cancel</button>
+        <button id="confirm-connection-btn" class="primary-button">Link</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
 </html>
